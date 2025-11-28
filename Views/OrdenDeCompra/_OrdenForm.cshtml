@@ -1,0 +1,56 @@
+﻿@model OrdenDeCompraViewModel
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<form asp-controller="OrdenDeCompra"
+      asp-action="@Model.FormAction"
+      method="post">
+
+    <input type="hidden" asp-for="Orden.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Orden.NumeroDeOrden" class="form-label fw-bold">Numero de Orden</label>
+        <input asp-for="Orden.NumeroDeOrden" class="form-control" type="number" value=@Model.Orden.NumeroDeOrden />
+        <span asp-validation-for="Orden.NumeroDeOrden" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Orden.Proveedor" class="form-label fw-bold">Proveedor</label>
+        <input asp-for="Orden.Proveedor" class="form-control" value=@Model.Orden.Proveedor />
+        <span asp-validation-for="Orden.Proveedor" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Orden.MontoTotal" class="form-label fw-bold">Monto Total</label>
+        <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input asp-for="Orden.MontoTotal" class="form-control" type="number" value=@Model.Orden.MontoTotal />
+        </div>
+        <span asp-validation-for="Orden.MontoTotal" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Orden.Fecha" class="form-label fw-bold">Fecha</label>
+        <input asp-for="Orden.Fecha" type="date" class="form-control" />
+        <span asp-validation-for="Orden.Fecha" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-center mt-3">
+        @if (Model.FormAction == "Edit")
+        {
+            <button type="submit" class="btn btn-warning w-75">Editar</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-success w-75">Guardar</button>
+        }
+    </div>
+
+</form>
+
+
+
+
