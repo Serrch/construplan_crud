@@ -7,7 +7,8 @@ namespace construplan_examen.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El Numero de Orden es obligatorio")]
-        [RegularExpression(@"^\d{1,9999}$", ErrorMessage = "El Numero de Orden debe contener solo números y al menos 1 digito")]
+        [StringLength(20)] 
+        [RegularExpression(@"^\d+$")]
         public string NumeroDeOrden { get; set; } = string.Empty; 
 
         [Required(ErrorMessage = "La fecha es obligatoria.")]
@@ -17,7 +18,7 @@ namespace construplan_examen.Models
         public string Proveedor { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El Monto Total es obligatorio")]
-        [Range(1, 999999, ErrorMessage = "El monto debe ser mayor a 0.")]
+        [Range(1, double.MaxValue, ErrorMessage = "El monto debe ser mayor a 0.")]
         public decimal MontoTotal { get; set; }
     }
 }

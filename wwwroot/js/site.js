@@ -1,4 +1,25 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).ready(function () {
+    const tabla = $('#tablaOrdenDeCompra');
 
-// Write your JavaScript code.
+    if (tabla.length) {
+        tabla.DataTable({
+            responsive: true,
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
+                paginate: {
+                    previous: "<i class='bi bi-chevron-left'></i>",
+                    next: "<i class='bi bi-chevron-right'></i>"
+                }
+            },
+            pageLength: 5
+        });
+    }
+});
+
+
+setTimeout(() => {
+    document.querySelectorAll('.alert').forEach(alert => {
+        let bsAlert = new bootstrap.Alert(alert);
+        bsAlert.close();
+    });
+}, 3000);

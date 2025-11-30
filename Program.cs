@@ -1,5 +1,6 @@
 using construplan_examen.Interfaces;
 using construplan_examen.Services;
+using construplan_examen.Utils;
 
 namespace construplan_examen
 {
@@ -36,6 +37,7 @@ namespace construplan_examen
 
             app.UseAuthorization();
             app.UseSession();
+            app.UseExceptionMiddleware();   
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=OrdenDeCompra}/{action=Index}/{id?}");

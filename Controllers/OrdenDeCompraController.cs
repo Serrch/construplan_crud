@@ -13,7 +13,9 @@ public class OrdenDeCompraController : Controller
 
     public IActionResult Index()
     {
-        return View(_service.GetAll());
+        ServiceResult<List<OrdenDeCompra>> result = _service.GetAll();
+
+        return View(result.Data);
     }
 
     [HttpGet]
@@ -36,26 +38,32 @@ public class OrdenDeCompraController : Controller
             return View(model);
         }
 
-        _service.Create(model.Orden);
+        ServiceResult<OrdenDeCompra> result = _service.Create(model.Orden);
 
-        TempData["SuccessMessage"] = "Orden creada correctamente.";
+        if (!result.Success)
+        {
+            TempData["ErrorMessage"] = result.Message;
+            return View(model);
+        }
+
+        TempData["SuccessMessage"] = result.Message;
         return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        OrdenDeCompra? orden = _service.GetById(id);
+        ServiceResult<OrdenDeCompra> result = _service.GetById(id);
 
-        if (orden == null)
+        if (result.Data == null || result.Success == false)
         {
-            TempData["ErrorMessage"] = "Orden no encontrada.";
+            TempData["ErrorMessage"] = result.Message;
             return RedirectToAction("Index");
         }
 
         return View(new OrdenDeCompraViewModel
         {
-            Orden = orden,
+            Orden = result.Data,
             FormAction = "Edit"
         });
     }
@@ -70,15 +78,29 @@ public class OrdenDeCompraController : Controller
             return View(model);
         }
 
-        _service.Update(model.Orden);
+        ServiceResult<OrdenDeCompra> result = _service.Update(model.Orden);
 
-        TempData["SuccessMessage"] = "Orden editada correctamente.";
+        if (!result.Success)
+        {
+            TempData["ErrorMessage"] = result.Message;
+            model.FormAction = "Edit";
+            return View(model);
+        }
+
+        TempData["SuccessMessage"] = result.Message;
         return RedirectToAction("Index");
     }
 
     public IActionResult Delete(int id)
     {
-        _service.Delete(id);
+        ServiceResult<OrdenDeCompra> result = _service.Delete(id);
+
+        if (!result.Success)
+        {
+            TempData["ErrorMessage"] = result.Message;
+            return RedirectToAction("Index");
+        }
+
         TempData["SuccessMessage"] = "Orden eliminada correctamente.";
 
         return RedirectToAction("Index");
